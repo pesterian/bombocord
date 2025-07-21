@@ -1,6 +1,8 @@
 # Bombocord
 This started off an an inside joke where we would translate copypastas into Jamaican. So I decided to write a discord bot that translates messages into Jamaican and stores copypastas as a joke but then it turned into a passion project of mine.
 
+The following explanation is AI generated because I am very lazy.
+
 ## How It Works
 - Uses Google's Gemini AI to translate text into Jamaican patois
 - Stores custom Jamaican translations in a JSON dictionary
