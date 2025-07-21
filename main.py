@@ -108,7 +108,7 @@ async def help(ctx):
 
 @bot.command()
 @cooldown(1, 15, BucketType.user)  # One use every 15 seconds per user
-async def translate(ctx, *, message: str = None):
+async def bombocord(ctx, *, message: str = None):
     """Translate text to Jamaican patois"""
     # If no message is provided, check if it's a reply
     if message is None and ctx.message.reference:
