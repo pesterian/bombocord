@@ -73,23 +73,38 @@ async def jedit(ctx, key: str, *, new_value: str):
 
 @bot.event
 async def on_message(message):
-    if message.author.bot or not message.content.startswith("*"):
+    # Skip bot messages
+    if message.author.bot:
         return
-
-    key = message.content[1:].strip().lower()
-    reply_text = func.get_jamaican_reply(key)
     
-    if reply_text:
-        try:
-            if message.reference:
-                ref = await message.channel.fetch_message(message.reference.message_id)
-                await ref.reply(reply_text)
-            else:
-                await message.channel.send(reply_text)
-        except Exception as e:
-            print(f"Error replying: {e}")
-
+    # Process commands first
     await bot.process_commands(message)
+    
+    # Check for key lookup only if it's not a command and starts with *
+    if (message.content.startswith("*") and 
+        not message.content.startswith("*bombocord") and
+        not message.content.startswith("*ja") and
+        not message.content.startswith("*jr") and
+        not message.content.startswith("*je") and
+        not message.content.startswith("*roulette") and
+        not message.content.startswith("*r ") and
+        not message.content.startswith("*random") and
+        not message.content.startswith("*help") and
+        not message.content.startswith("*commands") and
+        not message.content.startswith("*info")):
+        
+        key = message.content[1:].strip().lower()
+        reply_text = func.get_jamaican_reply(key)
+        
+        if reply_text:
+            try:
+                if message.reference:
+                    ref = await message.channel.fetch_message(message.reference.message_id)
+                    await ref.reply(reply_text)
+                else:
+                    await message.channel.send(reply_text)
+            except Exception as e:
+                logging.error(f"Error replying with key lookup: {e}")
 
 @bot.command(aliases=["commands", "info"])
 async def help(ctx):
@@ -129,7 +144,8 @@ async def bombocord(ctx, *, message: str = None):
     except func.RateLimitException as e:
         await ctx.send(str(e))
     except Exception as e:
-        await ctx.send(func.handle_error(e, "Translation"))
+        logging.error(f"Translation error: {str(e)}")
+        await ctx.send("Translation failed, bredren!")
 
 @bot.command(aliases=["r", "random"])
 @cooldown(1, 5, BucketType.user)  # One use every 5 seconds per user
@@ -161,7 +177,7 @@ async def on_command_error(ctx, error):
         await ctx.send("Yuh missing some tings dere, check the help command!")
     else:
         logging.error(f"Command error: {str(error)}")
-        await ctx.send("Something went wrong bredren!")
+        # Don't send error details to chat
 
 if __name__ == "__main__":
     bot.run(os.getenv("DISCORD_TOKEN"))
