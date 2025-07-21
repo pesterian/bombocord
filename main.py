@@ -96,7 +96,6 @@ async def help(ctx):
     """Show available commands and usage"""
     help_text = """
     **Bombocord Commands**
-    `*talk [message]` - Chat with Bombocord in Jamaican patois
     `*bombocord [message]` - Translate message to Jamaican patois
     `*ja [key] [value]` - Add new Jamaican phrase (admin only)
     `*jr [key]` - Remove Jamaican phrase (admin only)
@@ -126,9 +125,7 @@ async def bombocord(ctx, *, message: str = None):
 
     try:
         translation = func.translate_to_jamaican(ctx.author.id, message)
-        # Format the response
-        response = f"**Original:** {message}\n**Jamaican:** {translation}"
-        await ctx.send(response)
+        await ctx.send(translation)
     except func.RateLimitException as e:
         await ctx.send(str(e))
     except Exception as e:
@@ -155,18 +152,6 @@ async def roulette(ctx):
             await ctx.send(f"**{key}**: {value}")
     else:
         await ctx.send(f"**{key}**: {value}")
-
-@bot.command(aliases=["talk", "ask"])
-@cooldown(1, 30, BucketType.user)  # One use every 30 seconds per user
-async def gemini(ctx, *, message: str):
-    if func.check_rate_limit(ctx.author.id):
-        await ctx.send("Slow down bredren! Try again in a minute, yuh feel mi?")
-        return
-    func.log_user_interaction(ctx.author.id, message)
-    history = func.get_user_interactions(ctx.author.id)
-    prompt = func.compose_gemini_prompt(history, message)
-    reply = func.ask_gemini(prompt)
-    await ctx.send(reply)
 
 @bot.event
 async def on_command_error(ctx, error):

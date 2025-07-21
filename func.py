@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import functools
+import random
 import google.generativeai
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
@@ -88,7 +89,6 @@ def get_random_jamaican():
     """Returns a random entry from the Jamaican dictionary"""
     if not jamaican_dict:
         return None
-    import random
     key = random.choice(list(jamaican_dict.keys()))
     return key, jamaican_dict[key]
 
@@ -99,30 +99,6 @@ def load_admins():
 
 def is_admin(user_id: int) -> bool:
     return str(user_id) in admin_users
-
-def manage_user_history(user_id: int, message: str, filename: str):
-    """Manages user interaction history"""
-    data = load_file(filename, default=[])
-    data.append(f"{user_id}: {message}")
-    if len(data) > Config.MAX_HISTORY_LINES:
-        data.pop(0)
-    save_file(filename, data)
-    return data
-
-@rate_limit
-def log_user_interaction(user_id: int, message: str):
-    filename = Config.get_user_history_path(user_id)
-    manage_user_history(user_id, message, filename)
-    logging.info(f"Logged interaction for user {user_id}")
-
-@rate_limit
-def get_user_interactions(user_id: int) -> str:
-    filename = Config.get_user_history_path(user_id)
-    data = load_file(filename, default=[])
-    return "\n".join(data)
-
-def compose_gemini_prompt(history: str, user_message: str) -> str:
-    return f"{Config.BOT_PERSONA}\n\nConversation history:\n{history}\nUser: {user_message}\nBot:"
 
 @rate_limit
 def translate_to_jamaican(user_id: int, text: str) -> str:
@@ -140,11 +116,3 @@ def handle_error(error: Exception, context: str = "Operation") -> str:
     error_msg = f"{context} error: {str(error)}"
     logging.error(error_msg)
     return f"Yuh see mi bredren, I'm having some technical difficulties: {str(error)}"
-
-def ask_gemini(prompt: str) -> str:
-    try:
-        response = gemini_model.generate_content(prompt).text
-        logging.info("Gemini response generated successfully")
-        return response
-    except Exception as e:
-        return handle_error(e, "Gemini API")
