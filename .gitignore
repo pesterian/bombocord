@@ -1,0 +1,5 @@
+.env
+admins.json
+bombo.log
+jamaican_dict.json
+__pycache__/
