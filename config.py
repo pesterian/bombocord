@@ -6,10 +6,8 @@ class Config:
     LOG_FILE = "bombo.log"
     
     TRANSLATION_PROMPT = (
-        "Translate the following text to Jamaican patois. Keep the translation natural and "
-        "authentic, using common Jamaican expressions and slang:\n\n"
+        "The following text should be translated into Jamaican Patois and your reply should ONLY include the translation and NOTHING else.\n\n"
         "Text: {text}\n\n"
-        "Translation:"
     )
     
     @staticmethod
