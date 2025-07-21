@@ -35,7 +35,7 @@ logging.basicConfig(
 # Load environment variables and initialize Gemini
 load_dotenv()
 google.generativeai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-gemini_model = google.generativeai.GenerativeModel("gemini-pro")
+gemini_model = google.generativeai.GenerativeModel("gemini-1.5-flash")
 
 # Global state
 jamaican_dict = {}
