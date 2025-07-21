@@ -7,10 +7,9 @@ from discord.ext import commands
 from discord.ext.commands import cooldown, BucketType
 from config import Config
 
-# Bot setup
 intents = discord.Intents.default()
 intents.message_content = True 
-bot = commands.Bot(command_prefix=Config.COMMAND_PREFIX, intents=intents)
+bot = commands.Bot(command_prefix=Config.COMMAND_PREFIX, intents=intents, help_command=None)
 
 # Initialize data
 func.load_jamaican_dict()
