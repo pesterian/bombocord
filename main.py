@@ -116,7 +116,7 @@ async def help(ctx):
     `*jr [key]` - Remove Jamaican phrase (admin only)
     `*je [key] [value]` - Edit existing phrase (admin only)
     `*roulette` - Get a random Jamaican phrase
-    `*<key>' - Access a custom copypasta
+    `*[key]` - Access a custom copypasta
     """
     await ctx.send(help_text)
 
