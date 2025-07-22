@@ -5,8 +5,8 @@ The following explanation is AI generated because I am very lazy.
 
 ## How It Works
 - Uses Google's Gemini AI to translate text into Jamaican patois
-- Stores custom Jamaican translations in a JSON dictionary
-- Commands prefixed with `*` for easy access
+- Stores custom copypastas in a JSON dictionary
+- Commands prefixed with `*` for easy access - can be easily changed
 - Features rate limiting and cooldowns to prevent abuse
 - Supports reply-based translation of messages
 - Includes admin commands for managing custom translations
@@ -24,7 +24,7 @@ The following explanation is AI generated because I am very lazy.
 - `*jr [key]` - Remove Jamaican phrase (admin only) 
 - `*je [key] [value]` - Edit existing phrase (admin only)
 - `*roulette` - Get a random Jamaican phrase
-- `*<key>` - Access a custom copypasta by key
+- `*[key]` - Access a custom copypasta by key
 ### Requirements
 - Python 3.8+
 - discord.py
@@ -42,7 +42,7 @@ The following explanation is AI generated because I am very lazy.
    GOOGLE_API_KEY=your_gemini_api_key
    ```
 4. Configure admin users in `admins.json`
-5. Run with `python main.py`
+5. Run with `python3 main.py`
 
 ### Files
 - `main.py` - Main bot file with Discord commands
