@@ -39,6 +39,11 @@ async def jadd(ctx, key: str, *, value: str):
     if not func.is_admin(ctx.author.id):
         await ctx.send("Error: You are not an admin.")
         return
+    
+    if key in func.jamaican_dict:
+        await ctx.send(f"Key `{key}` already exists! Use `*jr {key}` to delete it, `*je {key} [new_value]` to edit it, or choose a different key.")
+        return
+        
     func.jamaican_dict[key] = value
     func.save_jamaican_dict()
     await ctx.send(f"Added `{key}`: `{value}` to Jamaican dictionary.")
