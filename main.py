@@ -162,12 +162,12 @@ async def roulette(ctx):
     if ctx.message.reference:
         try:
             ref = await ctx.channel.fetch_message(ctx.message.reference.message_id)
-            await ref.reply(f"**{key}**: {value}")
+            await ref.reply(f"{value}")
         except Exception as e:
             logging.error(f"Error replying to message: {str(e)}")
-            await ctx.send(f"**{key}**: {value}")
+            await ctx.send(f"{value}")
     else:
-        await ctx.send(f"**{key}**: {value}")
+        await ctx.send(f"{value}")
 
 @bot.event
 async def on_command_error(ctx, error):
