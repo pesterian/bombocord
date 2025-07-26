@@ -115,10 +115,22 @@ async def help(ctx):
     `*ja [key] [value]` - Add new Jamaican phrase (admin only)
     `*jr [key]` - Remove Jamaican phrase (admin only)
     `*je [key] [value]` - Edit existing phrase (admin only)
+    `*list` - List all dictionary keys
     `*roulette` - Get a random Jamaican phrase
     `*[key]` - Access a custom copypasta
     """
     await ctx.send(help_text)
+
+@bot.command()
+async def list(ctx):
+    """List all dictionary keys"""
+    if not func.jamaican_dict:
+        await ctx.send("Dictionary is empty!")
+        return
+    
+    keys = list(func.jamaican_dict.keys())
+    keys_text = ", ".join(f"`{key}`" for key in keys)
+    await ctx.send(f"{keys_text}")
 
 @bot.command()
 @cooldown(1, 15, BucketType.user)  # One use every 15 seconds per user
