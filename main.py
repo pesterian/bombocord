@@ -121,8 +121,8 @@ async def help(ctx):
     """
     await ctx.send(help_text)
 
-@bot.command()
-async def list(ctx):
+@bot.command(name="list")
+async def list_keys(ctx):
     """List all dictionary keys"""
     if not func.jamaican_dict:
         await ctx.send("Dictionary is empty!")
