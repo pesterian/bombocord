@@ -175,6 +175,9 @@ async def roulette(ctx):
         
     key, value = result
     
+    # Log the selected roulette entry
+    logging.info(f"Roulette selected key: '{key}'")
+    
     # If it's a reply to a message, reply to that message
     if ctx.message.reference:
         try:
