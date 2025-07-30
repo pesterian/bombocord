@@ -86,30 +86,30 @@ async def on_message(message):
     await bot.process_commands(message)
     
     # Check for key lookup only if it's not a command and starts with *
-    if (message.content.startswith("*") and 
-        not message.content.startswith("*bombocord") and
-        not message.content.startswith("*ja") and
-        not message.content.startswith("*jr") and
-        not message.content.startswith("*je") and
-        not message.content.startswith("*roulette") and
-        not message.content.startswith("*r ") and
-        not message.content.startswith("*random") and
-        not message.content.startswith("*help") and
-        not message.content.startswith("*commands") and
-        not message.content.startswith("*info")):
+    # Get the command part (everything after * until first space or end)
+    if message.content.startswith("*"):
+        command_part = message.content[1:].split()[0].lower()
         
-        key = message.content[1:].strip().lower()
-        reply_text = func.get_jamaican_reply(key)
+        # List of exact commands to exclude
+        excluded_commands = {
+            "bombocord", "ja", "jadd", "jr", "jrm", "jremove", "jrem", 
+            "je", "jed", "jedit", "roulette", "r", "random", 
+            "help", "commands", "info", "list"
+        }
         
-        if reply_text:
-            try:
-                if message.reference:
-                    ref = await message.channel.fetch_message(message.reference.message_id)
-                    await ref.reply(reply_text)
-                else:
-                    await message.channel.send(reply_text)
-            except Exception as e:
-                logging.error(f"Error replying with key lookup: {e}")
+        if command_part not in excluded_commands:
+            key = message.content[1:].strip().lower()
+            reply_text = func.get_jamaican_reply(key)
+            
+            if reply_text:
+                try:
+                    if message.reference:
+                        ref = await message.channel.fetch_message(message.reference.message_id)
+                        await ref.reply(reply_text)
+                    else:
+                        await message.channel.send(reply_text)
+                except Exception as e:
+                    logging.error(f"Error replying with key lookup: {e}")
 
 @bot.command(aliases=["commands", "info"])
 async def help(ctx):
@@ -139,7 +139,7 @@ async def list_keys(ctx):
 
 @bot.command()
 @cooldown(1, 15, BucketType.user)  # One use every 15 seconds per user
-async def bombocord(ctx, *, message: str = None):
+async def bombocord(ctx, *, message: str = None): # type: ignore
     """Translate text to Jamaican patois"""
     # If no message is provided, check if it's a reply
     if message is None and ctx.message.reference:
@@ -200,4 +200,4 @@ async def on_command_error(ctx, error):
         # Don't send error details to chat
 
 if __name__ == "__main__":
-    bot.run(os.getenv("DISCORD_TOKEN"))
+    bot.run(os.getenv("DISCORD_TOKEN")) # type: ignore
