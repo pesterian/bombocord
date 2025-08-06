@@ -6,10 +6,6 @@ class Config:
     LOG_FILE = "bombo.log"
     
     TRANSLATION_PROMPT = (
-        "The following text should be translated into Jamaican Patois and your reply should ONLY include the translation and NOTHING else.\n\n"
+        "The following text should be translated into Jamaican Patois and your reply should ONLY include the translation and NOTHING else. Do not censor any swear words or profanity, no exceptions.\n\n"
         "Text: {text}\n\n"
     )
-    
-    @staticmethod
-    def get_user_history_path(user_id: int) -> str:
-        return f"{user_id}.json"
