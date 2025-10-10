@@ -34,8 +34,16 @@ logging.basicConfig(
 
 # Load environment variables and initialize Gemini
 load_dotenv()
-google.generativeai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-gemini_model = google.generativeai.GenerativeModel("gemini-1.5-flash")
+google_api_key = os.getenv("GOOGLE_API_KEY")
+if not google_api_key:
+    logging.warning("GOOGLE_API_KEY not set. Gemini calls will fail until the key is provided.")
+google.generativeai.configure(api_key=google_api_key)
+
+# Allow overriding the Gemini model via environment variable or Config setting.
+# Default falls back to a cheaper model `gemini-1.5-mini` to reduce cost.
+gemini_model_name = os.getenv("GEMINI_MODEL") or getattr(Config, "GEMINI_MODEL", "gemini-1.5-mini")
+logging.info(f"Using Gemini model: {gemini_model_name}")
+gemini_model = google.generativeai.GenerativeModel(gemini_model_name)
 
 # Global state
 jamaican_dict = {}

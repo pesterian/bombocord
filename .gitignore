@@ -3,3 +3,4 @@ admins.json
 bombo.log
 jamaican_dict.json
 __pycache__/
+.venv
