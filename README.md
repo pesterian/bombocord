@@ -1,3 +1,6 @@
+## THIS BOT WILL NOT BE UPDATED ANY FURTHER
+I re-wrote the bot from the ground up, check out https://github.com/pesterian/bombocord2
+
 # Bombocord
 This started off an an inside joke where we would translate copypastas into Jamaican. So I decided to write a discord bot that translates messages into Jamaican and stores copypastas as a joke but then it turned into a passion project of mine. This is the second version of the bot; the first version is now lost to history as I am ashamed of what I have done.
 
@@ -51,3 +54,4 @@ The following explanation is AI generated because I am very lazy.
 - `jamaican_dict.json` - Custom phrase dictionary
 - `admins.json` - Admin user list
 - `bombo.log` - Bot activity logs
+
